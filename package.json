@@ -5,6 +5,7 @@
     "start": "concurrently \"cd backend && node server.js\" \"cd frontend && http-server -p 3000\""
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "http-server": "^14.1.1"
   }
 }
