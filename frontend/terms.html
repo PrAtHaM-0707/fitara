@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitara - Terms of Service</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+      body {
+        background: url(gym.jpg) no-repeat center/cover;
+        color: white;
+        text-align: center;
+      }
+      nav {
+        background: #ff6600;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.2rem;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        font-family: "Montserrat", sans-serif;
+      }
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        background: #222;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+      nav a:hover {
+        background: #444;
+      }
+      .terms-container {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 50px auto;
+        text-align: left;
+      }
+      .terms-container h2 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="logo2.png" height="140px" width="100px" alt="Fitara Logo" />
+      </div>
+      <div id="navLinks"></div>
+    </nav>
+    <div class="terms-container">
+      <h2>Terms of Service</h2>
+      <p>
+        Welcome to Fitara. By using our services, you agree to the following
+        terms:
+      </p>
+      <ul>
+        <li>You must provide accurate information during registration.</li>
+        <li>
+          You are responsible for maintaining the confidentiality of your
+          account.
+        </li>
+        <li>
+          We are not liable for any damages resulting from the use of our
+          services.
+        </li>
+        <li>These terms may be updated at any time without notice.</li>
+      </ul>
+      <p>If you have any questions, please contact us.</p>
+    </div>
+    <script>
+      function updateNav() {
+        const token = localStorage.getItem("token");
+        const navDiv = document.getElementById("navLinks");
+        if (token) {
+          navDiv.innerHTML =
+            '<a href="index.html">Home</a><a href="profile.html">Profile</a><a href="#" onclick="logout()">Logout</a>';
+        } else {
+          navDiv.innerHTML =
+            '<a href="index.html">Home</a><a href="login.html">Login</a><a href="register.html">Sign Up</a>';
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+      }
+
+      window.onload = updateNav;
+    </script>
+  </body>
+</html>

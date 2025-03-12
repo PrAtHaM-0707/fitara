@@ -1,0 +1,123 @@
+body{
+    background-color: rgb(88, 88, 88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial;
+    row-gap: 200px;
+}
+.w{
+    height: 700px;
+    width: 600px;
+    border-radius: 1px;
+    background-color: black;
+    opacity: 0.9;
+    border-radius: 10px;
+    align-items: center;
+    padding: 15px;
+    justify-content: center;
+    color:white;
+}
+input{
+    width: 100%;
+    row-gap: 19px;
+    border-radius: 10px;
+    height: 40px;
+    border-color: black;
+}
+label {
+    font-size: 16px;
+    color: white;
+}
+
+span{
+    font-size: 25px;
+}
+.g{
+    row-gap: 10px;
+}
+input{
+    margin-bottom: 15px;
+    display: block;
+}
+.forgot-link {
+    position: absolute;
+    top: 40.2%; /* Adjust vertical position */
+    left: 64%; /* Align to the right */
+    font-size: 13px;
+    color: rgb(255, 153, 0);
+    text-decoration: none;
+}
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    color: white;
+    margin-bottom: 15px;
+}
+input[type="checkbox"] {
+    margin-right: 10px; /* Adds space between the checkbox and the text */
+    width: auto; /* Keeps checkbox size consistent */
+    margin-top:12px;
+}
+
+button{
+    background-color: #333; /* Dark background */
+    color: white; /* White text */
+    padding: 10px; /* Larger padding for a bigger button */
+    font-size: 10x; /* Bigger text size */
+    border: none;
+    border-radius: 10px; /* Rounded edges */
+    cursor: pointer; /* Pointer cursor on hover */
+    width: 100%; /* Fixed width for the button */
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+button:hover{
+    background-color:green;
+}
+.line {
+    width: 100%; /* Adjust width to your preference */
+    border-top: 2px solid grey; /* Line style */
+    margin: 0 auto; /* Center the line horizontally */
+}
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!regisratioon form!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+body {
+    font-family: Arial;
+    background-color: #ff6600;
+    background:url(gym.jpg)no-repeat center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+/* 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!forgot11!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+.f{
+    background-color: black;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    opacity: 0.9;
+    color:white;
+}
+.reset{
+    background-color: black;
+    height: 300px;
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    opacity: 0.9;
+   color:white;
+}
+label {
+    display: inline-flex;
+    align-items: center;
+    
+}

@@ -1,0 +1,10 @@
+{
+  "name": "fitara-website",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"cd backend && node server.js\" \"cd frontend && http-server -p 3000\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

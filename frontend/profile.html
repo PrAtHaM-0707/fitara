@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitara - Profile</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+      body {
+        background: url(gym.jpg) no-repeat center/cover;
+        color: white;
+        text-align: center;
+      }
+      nav {
+        background: #ff6600;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.2rem;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        font-family: "Montserrat", sans-serif;
+      }
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        background: #222;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+      nav a:hover {
+        background: #444;
+      }
+      .profile-container {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 400px;
+        margin: 50px auto;
+      }
+      .profile-container input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: none;
+      }
+      .profile-container button {
+        padding: 10px 20px;
+        background: #ff6600;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin: 5px 0;
+      }
+      .profile-container button:hover {
+        background: #ff3300;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="logo2.png" height="140px" width="100px" alt="Fitara Logo" />
+      </div>
+      <div id="navLinks"></div>
+    </nav>
+    <div class="profile-container">
+      <h1>Your Profile</h1>
+      <p id="profileEmail">Loading...</p>
+      <input id="newUsername" placeholder="New Username" />
+      <button onclick="updateUsername()">Update Username</button>
+      <input id="newPassword" type="password" placeholder="New Password" />
+      <button onclick="resetPassword()">Reset Password</button>
+      <button onclick="logout()">Logout</button>
+      <p id="message"></p>
+    </div>
+    <script>
+      function updateNav() {
+        const token = localStorage.getItem("token");
+        const navDiv = document.getElementById("navLinks");
+        if (token) {
+          navDiv.innerHTML =
+            '<a href="index.html">Home</a><a href="profile.html">Profile</a><a href="#" onclick="logout()">Logout</a>';
+        } else {
+          navDiv.innerHTML =
+            '<a href="index.html">Home</a><a href="login.html">Login</a><a href="register.html">Sign Up</a>';
+        }
+      }
+
+      function loadProfile() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          window.location.href = "login.html";
+          return;
+        }
+        fetch("http://localhost:5000/profile", {
+          headers: { Authorization: token },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById(
+              "profileEmail"
+            ).textContent = `Email: ${data.email}`;
+            document.getElementById("newUsername").value = data.username || "";
+          })
+          .catch(() => {
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+          });
+      }
+
+      async function updateUsername() {
+        const newUsername = document.getElementById("newUsername").value;
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:5000/profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: token },
+          body: JSON.stringify({ username: newUsername }),
+        });
+        const data = await response.json();
+        document.getElementById("message").textContent = data.message;
+        loadProfile();
+      }
+
+      async function resetPassword() {
+        const newPassword = document.getElementById("newPassword").value;
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:5000/reset-password-from-profile",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token,
+            },
+            body: JSON.stringify({ newPassword }),
+          }
+        );
+        const data = await response.json();
+        const message = document.getElementById("message");
+        message.style.color = response.ok ? "green" : "red";
+        message.textContent = data.message;
+      }
+
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+      }
+
+      window.onload = () => {
+        updateNav();
+        loadProfile();
+      };
+    </script>
+  </body>
+</html>

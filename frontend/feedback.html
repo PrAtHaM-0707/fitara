@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitara - Feedback</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+      body {
+        background: url(gym.jpg) no-repeat center/cover;
+        color: white;
+        text-align: center;
+      }
+      nav {
+        background: #ff6600;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.2rem;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        font-family: "Montserrat", sans-serif;
+      }
+      .logo img {
+        height: 40px;
+        margin-right: 10px;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        background: #222;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+      nav a:hover {
+        background: #444;
+      }
+      .feedback-container {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 400px;
+        margin: 50px auto;
+      }
+      .feedback-container textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: none;
+      }
+      .feedback-container button {
+        padding: 10px 20px;
+        background: #ff6600;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%;
+      }
+      .feedback-container button:hover {
+        background: #ff3300;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="logo2.png" height="140px" width="100px" alt="Fitara Logo" />
+      </div>
+      <div id="navLinks"></div>
+    </nav>
+    <div class="feedback-container">
+      <h2>Give Feedback</h2>
+      <form id="feedbackForm">
+        <textarea
+          id="feedbackText"
+          placeholder="Your feedback..."
+          rows="5"
+          required
+        ></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+      <p id="message"></p>
+    </div>
+    <script>
+      function updateNav() {
+        const token = localStorage.getItem("token");
+        const navDiv = document.getElementById("navLinks");
+        if (token) {
+          navDiv.innerHTML =
+            '<a href="index.html">Home</a><a href="profile.html">Profile</a><a href="#" onclick="logout()">Logout</a>';
+        } else {
+          navDiv.innerHTML =
+            '<a href="index.html">Home</a><a href="login.html">Login</a><a href="register.html">Sign Up</a>';
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+      }
+
+      window.onload = updateNav;
+
+      document
+        .getElementById("feedbackForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const feedback = document.getElementById("feedbackText").value;
+          const token = localStorage.getItem("token");
+          if (!token) {
+            document.getElementById("message").style.color = "red";
+            document.getElementById("message").textContent =
+              "Please log in to submit feedback.";
+            return;
+          }
+          try {
+            const response = await fetch(
+              "http://localhost:5000/submit-feedback",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+                },
+                body: JSON.stringify({ feedback }),
+              }
+            );
+            const data = await response.json();
+            const message = document.getElementById("message");
+            if (response.ok) {
+              message.style.color = "green";
+              message.textContent = data.message;
+              document.getElementById("feedbackText").value = ""; // Clear the textarea
+            } else {
+              message.style.color = "red";
+              message.textContent = data.message;
+            }
+          } catch (error) {
+            document.getElementById("message").style.color = "red";
+            document.getElementById("message").textContent =
+              "Error submitting feedback.";
+          }
+        });
+    </script>
+  </body>
+</html>
